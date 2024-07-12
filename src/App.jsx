@@ -1,37 +1,64 @@
 
-import ContactForm from './components/contactForm/ContactForm'
-import SearchBox from './components/searchBox/SearchBox'
-import ContactsList from './components/contactList/ContactList'
+import { lazy, Suspense, useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
+import Layout from "./components/layout/Layout";
 import Error from './components/error/Error'
-import Loader from './components/loader/Loader'
-import { fetchContacts } from "./redux/contactsOps"
-import { selectLoading } from './redux/contactsSlice'
- import { selectError } from './redux/contactsSlice'
+import { selectIsRefreshing, selectIsError } from "./redux/auth/selectors";
+import { refreshUser } from "./redux/auth/operations";
+import PrivateRoute from "./components/privateRoute/PrivateRoute";
+import RestrictedRoute from "./components/restrictedRoute/RestrictedRoute";
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
 import './App.css'
 
-function App() {
- 
-  const isLoading = useSelector(selectLoading);
-  const isError = useSelector(selectError);
-  const dispatch = useDispatch()
+const HomePage = lazy(() => import("./pages/homePage/HomePage"));
+const RegisterPage = lazy(() =>
+  import("./pages/registrationPage/RegistrationPage")
+);
+const LoginPage = lazy(() => import("./pages/loginPage/LoginPage"));
+const ContactsPage = lazy(() =>
+  import("./pages/contactsPage/ContactsPage")
+);
+
+export default function App() {
+  const dispatch = useDispatch();
+  const isRefreshing = useSelector(selectIsRefreshing);
+  const isError = useSelector(selectIsError);
   useEffect(() => {
-  dispatch(fetchContacts())
-},[dispatch])
-  
-  return ( 
-    <div>
-  <h1>Phonebook</h1>
+    dispatch(refreshUser());
+  }, [dispatch]);
 
-      <ContactForm />
-      <SearchBox />
-            {isLoading && <Loader>Loading message</Loader>}
-      {isError && <Error>Error message</Error>}
-  <ContactsList />
-</div>
-  )
-  
+  return isError ? (
+    <Error />
+  ) : isRefreshing ? (
+    <p className={css.text}>Please wait, the page is refreshing </p>
+  ) : (
+    <Layout>
+      <Suspense fallback={null}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/register"
+            element={
+              <RestrictedRoute component={<RegisterPage />} redirectTo="/" />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <RestrictedRoute
+                component={<LoginPage />}
+                redirectTo="/contacts"
+              />
+            }
+          />
+          <Route
+            path="/contacts"
+            element={
+              <PrivateRoute component={<ContactsPage />} redirectTo="/login" />
+            }
+          />
+        </Routes>
+      </Suspense>
+    </Layout>
+  );
 }
-
-export default App

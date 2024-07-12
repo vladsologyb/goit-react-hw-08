@@ -1,0 +1,11 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.button {
+    background-color: #474ae4;
+    border-style: none;
+    border-radius: 3px;
+    color: #ffffff;
+}

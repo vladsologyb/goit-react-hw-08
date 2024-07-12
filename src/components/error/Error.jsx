@@ -1,7 +1,11 @@
-export default function Error({ children }) {
+import { MdError } from "react-icons/md"
+
+export default function Error() {
   return (
-    <p >
-      <b>{children}</b>
-    </p>
-  );
+    <div className={css.container}>
+      {" "}
+      <MdError className={css.icon} size={32} color={"white"} />
+      <p className={css.text}>Oops! There was an error! Please reload!</p>
+    </div>
+  )
 }
