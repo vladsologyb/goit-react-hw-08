@@ -1,22 +1,19 @@
-import { useState, useEffect } from "react";
+import { RotatingLines } from "react-loader-spinner";
 
-export default function Loader({ children }) {
-  const [dots, setDots] = useState("");
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDots((dots) => (dots.length < 3 ? dots + "." : ""));
-    }, 250);
-
-    return () => clearInterval(interval);
-  }, []);
-
+export default function Loader() {
   return (
-    <p >
-      <b>
-        {children}
-        {dots}
-      </b>
-    </p>
+    <>
+      <RotatingLines
+        visible={true}
+        height="96"
+        width="96"
+        color="grey"
+        strokeWidth="5"
+        animationDuration="0.75"
+        ariaLabel="rotating-lines-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+      />
+    </>
   );
 }

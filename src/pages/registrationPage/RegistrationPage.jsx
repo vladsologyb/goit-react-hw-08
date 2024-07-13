@@ -1,5 +1,5 @@
-import PageTitle from "../../components/PageTitle/PageTitle";
-import RegistrationForm from "../../components/RegistrationForm/RegistrationForm";
+import PageTitle from "../../components/pageTitle/PageTitle";
+import RegistrationForm from "../../components/registrationForm/RegistrationForm";
 import css from "./RegistrationPage.module.css";
 
 export default function RegisterPage() {

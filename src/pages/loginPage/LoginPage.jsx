@@ -1,5 +1,5 @@
-import LoginForm from "../../components/LoginForm/LoginForm";
-import PageTitle from "../../components/PageTitle/PageTitle";
+import LoginForm from '../../components/LoginForm/LoginForm';
+import PageTitle from "../../components/pageTitle/PageTitle";
 import css from "./LoginPage.module.css";
 
 export default function LoginPage() {

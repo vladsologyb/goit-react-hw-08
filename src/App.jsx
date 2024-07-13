@@ -30,7 +30,7 @@ export default function App() {
   return isError ? (
     <Error />
   ) : isRefreshing ? (
-    <p className={css.text}>Please wait, the page is refreshing </p>
+    <p>Please wait, the page is refreshing </p>
   ) : (
     <Layout>
       <Suspense fallback={null}>
